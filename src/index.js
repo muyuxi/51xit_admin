@@ -21,6 +21,27 @@ app.use((req, res, next) => {
   next();
 });
 
+// 根路径欢迎页面
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: '🌈 51习题 - 学前班认字学习系统 API',
+    version: '1.0.0',
+    endpoints: {
+      health: '/health',
+      words: '/api/words/:character',
+      sentences: '/api/sentences/:text',
+      characterExplain: '/api/character/explain/:character',
+      wordExplain: '/api/word/explain/:word',
+      learn: '/api/learn',
+      storyGenerate: '/api/story/generate',
+      tts: '/api/tts',
+      ttsStatus: '/api/tts/status'
+    },
+    documentation: 'https://github.com/muyuxi/51xit_admin'
+  });
+});
+
 // 健康检查接口
 app.get('/health', (req, res) => {
   res.json({
@@ -52,9 +73,10 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 启动服务器
-app.listen(PORT, () => {
-  console.log(`
+// 启动服务器（仅在非 Vercel 环境下启动）
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`
 ╔═══════════════════════════════════════════════╗
 ║   51习题 - 学前班认字学习系统 API服务        ║
 ╚═══════════════════════════════════════════════╝
@@ -82,6 +104,7 @@ app.listen(PORT, () => {
   curl -X POST http://localhost:${PORT}/api/learn -H "Content-Type: application/json" -d '{"character":"水"}'
   curl -X POST http://localhost:${PORT}/api/tts -H "Content-Type: application/json" -d '{"text":"你好"}' --output audio.mp3
 `);
-});
+  });
+}
 
 export default app;
