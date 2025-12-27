@@ -21,6 +21,27 @@ app.use((req, res, next) => {
   next();
 });
 
+// 根路径欢迎页面
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: '🌈 51习题 - 学前班认字学习系统 API',
+    version: '1.0.0',
+    endpoints: {
+      health: '/health',
+      words: '/api/words/:character',
+      sentences: '/api/sentences/:text',
+      characterExplain: '/api/character/explain/:character',
+      wordExplain: '/api/word/explain/:word',
+      learn: '/api/learn',
+      storyGenerate: '/api/story/generate',
+      tts: '/api/tts',
+      ttsStatus: '/api/tts/status'
+    },
+    documentation: 'https://github.com/muyuxi/51xit_admin'
+  });
+});
+
 // 健康检查接口
 app.get('/health', (req, res) => {
   res.json({
