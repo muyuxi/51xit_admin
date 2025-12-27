@@ -52,9 +52,10 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 启动服务器
-app.listen(PORT, () => {
-  console.log(`
+// 启动服务器（仅在非 Vercel 环境下启动）
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`
 ╔═══════════════════════════════════════════════╗
 ║   51习题 - 学前班认字学习系统 API服务        ║
 ╚═══════════════════════════════════════════════╝
@@ -82,6 +83,7 @@ app.listen(PORT, () => {
   curl -X POST http://localhost:${PORT}/api/learn -H "Content-Type: application/json" -d '{"character":"水"}'
   curl -X POST http://localhost:${PORT}/api/tts -H "Content-Type: application/json" -d '{"text":"你好"}' --output audio.mp3
 `);
-});
+  });
+}
 
 export default app;
